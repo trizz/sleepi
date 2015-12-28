@@ -23,6 +23,7 @@ Example:
     >> led.fill(255, 0, 0)
 """
 
+import colorsys
 
 class ledBar:
     def __init__(self, leds=32, dev="/dev/spidev0.1"):
@@ -45,13 +46,32 @@ class ledBar:
             # Color calculations from http://learn.adafruit.com/light-painting-with-raspberry-pi
             self.gamma[i] = 0x80 | int(pow(float(i) / 255.0, 2.5) * 127.0 + 0.5)
 
-    def fill(self, r, g, b, start=0, end=0):
+    def fillRGB(self, r, g, b, start=0, end=0):
         """
         Fill the strand (or a subset) with a single color
         """
         if start < 0: raise NameError("Start invalid:" + str(start))
         if end == 0: end = self.leds
         if end > self.leds: raise NameError("End invalid: " + str(end))
+
+        for led in range(start, end):
+            self.buffer[led][0] = self.gamma[g]
+            self.buffer[led][1] = self.gamma[r]
+            self.buffer[led][2] = self.gamma[b]
+
+        self.update()
+
+    # Fill the strand (or a subset) with a single color using HSV values
+    def fillHSV(self, h, s, v, start=0, end=0):
+        if start < 0: raise NameError("Start invalid:" + str(start))
+        if end == 0: end = self.leds
+        if end > self.leds: raise NameError("End invalid: " + str(end))
+
+        rgb = colorsys.hsv_to_rgb(h/360.0, s, v)
+
+        r = int(rgb[0]*255)
+        g = int(rgb[1]*255)
+        b = int(rgb[2]*255)
 
         for led in range(start, end):
             self.buffer[led][0] = self.gamma[g]
