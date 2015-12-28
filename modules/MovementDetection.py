@@ -51,7 +51,7 @@ class MovementDetection:
         # If the strip isn't active, set it active, fade in and countdown to a fade out.
         if not self.strip_active:
             self.strip_active = True
-            self.fade.fade_in()
+            self.fade.white_in()
 
             # Sleep one second at a time until the remaining seconds reached zero. This can be reset by resetTimer().
             while self.remainingSeconds > 0:
@@ -59,7 +59,7 @@ class MovementDetection:
                 time.sleep(1)
                 self.remainingSeconds -= 1
 
-            self.fade.fade_out()
+            self.fade.white_out()
             self.strip_active = False
 
     # Endless loop to detect movement by the PIR sensor, at least until stop_detection is changed to true.
@@ -80,4 +80,4 @@ class MovementDetection:
                 if new_state == "HIGH":
                     self.activate_ledstrip()
 
-        self.fade.fade_out()
+        self.fade.white_out()
