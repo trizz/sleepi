@@ -10,8 +10,3 @@ This way you can see where you're walking whithout the need to turn on the light
 - Use the ledstrip as a kind of wake-up light
     - Allow multiple "alarms" (for example only on workdays at 07.00 and in the weekend at 09.00)
     - Including sound (? I don't know this one yet...)
-    
-#### Known bugs
-- At this moment, there are several threads to detect movement, fade the ledstrip etc. These can't be killed by
-the script itself (for example with a <kbd>ctrl</kbd>+<kbd>c</kbd>). For now, while debugging you can enable the last 
-two lines in `scripts/run.py` or you can kill the script yourself with a process manager.
