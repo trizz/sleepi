@@ -24,7 +24,7 @@ Example:
 """
 
 
-class strand:
+class ledBar:
     def __init__(self, leds=32, dev="/dev/spidev0.1"):
         """
         Variables:

@@ -1,12 +1,12 @@
 import RPi.GPIO as GPIO
 import time
-from scripts import ledstrip, async, effects
+from scripts import async, effects
 
 
 class MovementDetection:
-    def __init__(self):
+    def __init__(self, led_bar):
         # Initialize the ledstrip.
-        self.led = ledstrip.strand()
+        self.led_bar = led_bar
 
         # GPIO pin of the PIR sensor.
         self.sensor = 4
@@ -49,7 +49,7 @@ class MovementDetection:
         # If the strip isn't active, set it active, fade in and countdown to a fade out.
         if not self.strip_active:
             self.strip_active = True
-            effects.fade_in(self.led)
+            effects.fade_in(self.led_bar)
 
             # Sleep one second at a time until the remaining seconds reached zero. This can be reset by resetTimer().
             while self.remainingSeconds > 0:
@@ -57,7 +57,7 @@ class MovementDetection:
                 time.sleep(1)
                 self.remainingSeconds -= 1
 
-            effects.fade_out(self.led)
+            effects.fade_out(self.led_bar)
             self.strip_active = False
 
     # Endless loop to detect movement by the PIR sensor, at least until stop_detection is changed to true.
@@ -78,4 +78,4 @@ class MovementDetection:
                 if new_state == "HIGH":
                     self.activate_ledstrip()
 
-        effects.fade_out(self.led)
+        effects.fade_out(self.led_bar)
